@@ -1,0 +1,27 @@
+# ビルド出力
+dist/
+
+# 依存関係
+node_modules/
+
+# 作業スライド（テンプレート基盤ではない）
+slides/*
+!slides/.gitkeep
+
+# アーカイブ
+archive/
+
+# 生成ファイル
+*.html
+*.pdf
+
+# バックアップ
+*.backup
+*.css.backup
+
+# システムファイル
+.DS_Store
+
+# Claude Code ローカル設定
+.claude/*.local.*
+.claude/settings.local.json

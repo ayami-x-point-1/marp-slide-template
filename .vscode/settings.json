@@ -1,0 +1,8 @@
+{
+  "markdown.marp.themes": [
+    "themes/theme-common.css",
+    "themes/theme-wisdom.css",
+    "themes/theme-toughness.css",
+    "themes/theme-with_you.css",
+  ]
+}
