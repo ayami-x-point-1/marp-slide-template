@@ -23,6 +23,10 @@ section {
     linear-gradient(45deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   color: var(--text-color);
   font-family: var(--font-family);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 24px;
 }
 
 section.title {
@@ -95,8 +99,8 @@ ol {
   line-height: 1.8;
 }
 
-li {
-  margin-bottom: 6px;
+li + li {
+  margin-top: 0;
 }
 
 ul > li::marker {
@@ -321,12 +325,15 @@ section.section-divider h1 {
 .card {
   background: var(--bg-light);
   border-radius: 16px;
-  padding: 16px 24px 1px;
+  padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
   border: 2px solid var(--bg-light);
   transition:
     transform 0.2s,
     box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .card:hover {
@@ -358,27 +365,40 @@ section.section-divider h1 {
 .highlight-warning {
   background: linear-gradient(135deg, #fefce8 0%, #fef9c3 100%);
   border-left-color: #ca8a04;
-  padding: 4px 35px 1px 35px;
+  padding: 16px 35px;
+  display: flex;
+  align-items: center;
+}
+
+.highlight-warning p {
+  margin: 0;
 }
 
 .highlight-info {
   background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
   border-left-color: #2563eb;
-  padding: 16px 16px 1px;
-  padding: 4px 35px 1px 35px;
+  padding: 16px 35px;
+  display: flex;
+  align-items: center;
+}
+
+.highlight-info p {
+  margin: 0;
 }
 
 /* ===== アイコン付きリスト ===== */
 .icon-list {
   list-style: none;
-  margin-left: 0;
+  margin: 0;
   padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .icon-list li {
   padding-left: 45px;
   position: relative;
-  margin-bottom: 20px;
   line-height: 1.6;
 }
 
@@ -386,6 +406,8 @@ section.section-divider h1 {
   content: '✓';
   position: absolute;
   left: 0;
+  top: 50%;
+  transform: translateY(-50%);
   width: 32px;
   height: 32px;
   background: var(--heading-primary);
@@ -571,4 +593,11 @@ section.section-divider h1 {
 }
 .progress-fill-100 {
   width: 100%;
+}
+
+/* ===== PDF出力用 ===== */
+@media print {
+  section {
+    border-radius: 0;
+  }
 }
