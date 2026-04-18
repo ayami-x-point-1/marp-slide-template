@@ -36,8 +36,8 @@ npm run preview
 ### 3. エクスポート
 
 ```bash
-npm run build       # HTML出力（最新編集ファイル）
-npm run build:pdf   # PDF出力（最新編集ファイル）
+npm run build       # HTML出力（最新編集ファイル → dist/{名前}/ に出力）
+npm run build:pdf   # PDF出力（最新編集ファイル → dist/{名前}/ に出力）
 npm run build:all   # slides/内の全ファイル
 ```
 
@@ -70,6 +70,7 @@ npm run sync-themes
 | `npm run build:pdf` | 最新ファイルをPDF出力 |
 | `npm run build:all` | 全ファイルビルド |
 | `npm run watch` | 最新ファイルを監視・自動ビルド |
+| `npm run archive` | slides/の完成スライドをarchive/に移動 |
 | `npm run build:samples` | サンプル全テーマビルド |
 | `npm run sync-themes` | theme-common.cssを全テーマに反映 |
 | `npm run preview:samples` | サンプルプレビュー |
@@ -81,6 +82,6 @@ slides/     作業ディレクトリ（スライドをここに作成）
 samples/    テーマ別サンプル（全レイアウトの使用例）
 themes/     CSSテーマファイル
 archive/    アーカイブ（過去のスライド）
-dist/       ビルド出力
+dist/       ビルド出力（dist/{スライド名}/ 構成）
 scripts/    ユーティリティスクリプト
 ```
