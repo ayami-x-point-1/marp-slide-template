@@ -9,6 +9,7 @@
     "preview": "marp -s slides/",
     "preview:samples": "marp -s samples/",
     "watch": "FILE=$(ls -t slides/*.md 2>/dev/null | head -1) && [ -n \"$FILE\" ] && marp \"$FILE\" -w -o dist/$(basename \"$FILE\" .md).html || echo 'slides/にmdファイルがありません'",
-    "sync-themes": "node scripts/sync-themes.js"
+    "sync-themes": "node scripts/sync-themes.js",
+    "archive": "node scripts/archive-slides.js"
   }
 }

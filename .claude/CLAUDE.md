@@ -80,6 +80,9 @@ npm run build:samples
 
 # theme-common.cssの変更を全テーマに反映
 npm run sync-themes
+
+# slides/内の完成スライドをarchive/に移動
+npm run archive
 ```
 
 ## ワークフロー
