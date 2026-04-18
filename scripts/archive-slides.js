@@ -50,14 +50,20 @@ for (const file of files) {
   );
   console.log(`  slides/${file} → archive/${finalName}/${file}`);
 
-  // dist/内の対応ファイル（HTML/PDF）を移動
+  // dist/{baseName}/内の対応ファイル（HTML/PDF）を移動
+  const distSubDir = path.join(DIST_DIR, baseName);
   for (const ext of ['.html', '.pdf']) {
     const distFile = baseName + ext;
-    const distPath = path.join(DIST_DIR, distFile);
+    const distPath = path.join(distSubDir, distFile);
     if (fs.existsSync(distPath)) {
       fs.renameSync(distPath, path.join(finalDir, distFile));
-      console.log(`  dist/${distFile} → archive/${finalName}/${distFile}`);
+      console.log(`  dist/${baseName}/${distFile} → archive/${finalName}/${distFile}`);
     }
+  }
+
+  // dist サブディレクトリが空になったら削除
+  if (fs.existsSync(distSubDir) && fs.readdirSync(distSubDir).length === 0) {
+    fs.rmdirSync(distSubDir);
   }
 
   movedCount++;

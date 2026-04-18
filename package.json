@@ -2,13 +2,13 @@
   "name": "marp-templates",
   "version": "2.0.0",
   "scripts": {
-    "build": "FILE=$(ls -t slides/*.md 2>/dev/null | head -1) && [ -n \"$FILE\" ] && marp \"$FILE\" -o dist/$(basename \"$FILE\" .md).html || echo 'slides/にmdファイルがありません'",
-    "build:pdf": "FILE=$(ls -t slides/*.md 2>/dev/null | head -1) && [ -n \"$FILE\" ] && marp \"$FILE\" --pdf -o dist/$(basename \"$FILE\" .md).pdf || echo 'slides/にmdファイルがありません'",
-    "build:all": "marp -I slides/ -o dist/",
+    "build": "node scripts/build-slides.js",
+    "build:pdf": "node scripts/build-slides.js --pdf",
+    "build:all": "node scripts/build-slides.js --all",
     "build:samples": "marp -I samples/ -o dist/samples/",
     "preview": "marp -s slides/",
     "preview:samples": "marp -s samples/",
-    "watch": "FILE=$(ls -t slides/*.md 2>/dev/null | head -1) && [ -n \"$FILE\" ] && marp \"$FILE\" -w -o dist/$(basename \"$FILE\" .md).html || echo 'slides/にmdファイルがありません'",
+    "watch": "node scripts/build-slides.js --watch",
     "sync-themes": "node scripts/sync-themes.js",
     "archive": "node scripts/archive-slides.js"
   }

@@ -17,9 +17,11 @@ marp-templates/
 │   └── sample-with_you.md
 ├── slides/                    # 作業ディレクトリ（git除外）
 ├── archive/                   # アーカイブ（git除外）
-├── dist/                      # ビルド出力（git除外）
+├── dist/                      # ビルド出力（dist/{名前}/ 構成、git除外）
 ├── scripts/                   # ユーティリティスクリプト
-│   └── sync-themes.js
+│   ├── build-slides.js        # ビルド（dist/{名前}/に出力）
+│   ├── archive-slides.js      # アーカイブ移動
+│   └── sync-themes.js         # テーマ同期
 ├── .marprc.yml                # Marp CLI共通設定
 ├── package.json
 ├── LAYOUTS.md                 # レイアウトパターンガイド
