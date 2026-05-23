@@ -1,0 +1,541 @@
+/* @theme theme-luming */
+
+@import 'default';
+
+/*
+ * theme-luming
+ *
+ * やわらかく・あたたかい、静かな夜の小さな灯りのようなテーマ。
+ * 会社外のLT（社外勉強会・カンファレンス）で使うことを想定した汎用テーマで、
+ * 既存3テーマ（toughness / wisdom / with_you）とは設計思想から独立している。
+ *
+ * 設計方針:
+ * - グラデーション枠は使わず、紙のような落ち着いた一枚背景で構成する
+ * - セピア基調の配色で「安心して力を抜ける空気」を表現する
+ * - LT向けクラス（.core / .hook / .pause）を提供し、
+ *   「核心1つ・フック・省く部分」というLT構造を直接サポートする
+ * - 自己完結。theme-common.css を import しないため sync-themes の対象外
+ */
+
+:root {
+  /* 色 */
+  --luming-bg: #f8f1e4; /* 紙のような主背景 */
+  --luming-bg-soft: #f0e5d0; /* カード・引用などの副背景 */
+  --luming-bg-deep: #e8d9ba; /* 強調背景・テーブルヘッダ等 */
+  --luming-ink: #4a3528; /* 主文字 */
+  --luming-ink-soft: #7a5c45; /* 副文字 */
+  --luming-ink-mute: #a48871; /* 控えめな文字・ページ番号 */
+  --luming-accent: #b8895a; /* メインアクセント（タン） */
+  --luming-accent-soft: #d4b896; /* ソフトアクセント・マーカー線 */
+  --luming-line: #d9c7a6; /* 罫線・フレーム */
+  --luming-shadow: rgba(74, 53, 40, 0.08);
+
+  /* タイポグラフィ */
+  --luming-serif: 'Noto Serif JP', 'Hiragino Mincho ProN', 'YuMincho', serif;
+  --luming-sans: 'Noto Sans JP', 'Hiragino Sans', 'YuGothic', sans-serif;
+}
+
+/* ===== 基本スライド ===== */
+section {
+  font-family: var(--luming-sans);
+  font-size: 28px;
+  line-height: 1.8;
+  width: 1280px;
+  height: 720px;
+  padding: 64px 80px;
+  box-sizing: border-box;
+  background-color: var(--luming-bg);
+  color: var(--luming-ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+  /* 二重線フレーム */
+  box-shadow:
+    inset 0 0 0 14px var(--luming-bg),
+    inset 0 0 0 15px var(--luming-line),
+    inset 0 0 0 21px var(--luming-bg),
+    inset 0 0 0 23px var(--luming-line);
+}
+
+/* ===== 見出し ===== */
+h1,
+h2,
+h3 {
+  font-family: var(--luming-serif);
+  font-weight: 600;
+  color: var(--luming-ink);
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  font-size: 50px;
+  margin: 0 0 8px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--luming-line);
+}
+
+h2 {
+  font-size: 38px;
+  margin: 0 0 8px;
+}
+
+h3 {
+  font-size: 32px;
+  margin: 0 0 8px;
+}
+
+/* ===== 段落・リスト・強調 ===== */
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding-left: 32px;
+  line-height: 1.9;
+}
+
+ul > li::marker {
+  content: '◦  ';
+  color: var(--luming-accent);
+}
+
+ol > li::marker {
+  color: var(--luming-accent);
+  font-weight: 600;
+}
+
+strong {
+  font-weight: 600;
+  color: var(--luming-ink);
+  background: linear-gradient(transparent 68%, var(--luming-accent-soft) 68%);
+}
+
+em {
+  font-style: italic;
+  color: var(--luming-accent);
+}
+
+a {
+  color: var(--luming-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--luming-accent-soft);
+}
+
+a:hover {
+  color: var(--luming-ink);
+}
+
+hr {
+  border: none;
+  margin: 28px auto;
+  width: 60%;
+  height: 1px;
+  background-color: var(--luming-line);
+}
+
+/* ===== 引用 ===== */
+blockquote {
+  background-color: var(--luming-bg-soft);
+  border: none;
+  border-left: 3px solid var(--luming-accent);
+  border-radius: 6px;
+  padding: 18px 28px;
+  margin: 20px 0;
+  font-family: var(--luming-serif);
+  font-style: italic;
+  color: var(--luming-ink-soft);
+  font-size: 26px;
+  line-height: 1.7;
+}
+
+/* ===== コード ===== */
+code {
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  font-size: 22px;
+  background-color: var(--luming-bg-deep);
+  color: var(--luming-ink);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+pre {
+  background-color: #3a2b20;
+  color: #f0e5d0;
+  padding: 24px 28px;
+  border-radius: 10px;
+  margin: 16px 0;
+  overflow-x: auto;
+  box-shadow: 0 4px 12px var(--luming-shadow);
+}
+
+pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+/* ===== シンタックスハイライト（Luming配色） ===== */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-built_in {
+  color: #e8b87a;
+}
+
+.hljs-string,
+.hljs-attr,
+.hljs-template-variable,
+.hljs-meta-string {
+  color: #e8d496;
+}
+
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-regexp {
+  color: #f0c896;
+}
+
+.hljs-title,
+.hljs-name,
+.hljs-section,
+.hljs-function .hljs-title {
+  color: #f0e5d0;
+}
+
+.hljs-variable,
+.hljs-property,
+.hljs-attribute {
+  color: #d4b896;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #a48871;
+  font-style: italic;
+}
+
+.hljs-tag,
+.hljs-operator,
+.hljs-punctuation {
+  color: #f0e5d0;
+}
+
+/* ===== テーブル ===== */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 22px;
+  background-color: var(--luming-bg);
+}
+
+table th,
+table td {
+  padding: 12px 20px;
+  border: 1px solid var(--luming-bg-deep);
+  border-color: var(--luming-bg-deep);
+}
+
+table th {
+  text-align: left;
+  font-weight: 600;
+  background-color: var(--luming-bg-soft);
+  color: var(--luming-ink);
+}
+
+/* ===== ページネーション ===== */
+section::after {
+  font-family: var(--luming-serif) !important;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  color: var(--luming-ink-mute) !important;
+  position: absolute !important;
+  bottom: 30px !important;
+  right: 50px !important;
+  z-index: 10 !important;
+}
+
+section[data-marpit-pagination]::after {
+  font-family: var(--luming-serif) !important;
+  font-size: 18px !important;
+  color: var(--luming-ink-mute) !important;
+  position: absolute !important;
+  bottom: 30px !important;
+  right: 50px !important;
+  z-index: 10 !important;
+}
+
+/* ===== タイトルスライド ===== */
+section.title {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 80px;
+}
+
+section.title h1 {
+  font-family: var(--luming-serif);
+  font-size: 92px;
+  font-weight: 400;
+  border-bottom: none;
+  padding: 0;
+  margin: 0 0 4px;
+  color: var(--luming-ink);
+  letter-spacing: 0.04em;
+}
+
+section.title h2 {
+  font-size: 30px;
+  font-weight: 400;
+  color: var(--luming-ink-soft);
+  margin: 0 0 48px;
+  letter-spacing: 0.12em;
+}
+
+section.title p {
+  font-size: 22px;
+  color: var(--luming-ink-mute);
+  margin: 0;
+  letter-spacing: 0.08em;
+}
+
+/* タイトル下の小さな装飾 */
+section.title h1::after {
+  content: '⋄  ⋄  ⋄';
+  display: block;
+  font-size: 22px;
+  color: var(--luming-accent);
+  margin-top: 28px;
+  letter-spacing: 0.6em;
+}
+
+section.title::after {
+  display: none !important;
+}
+
+/* ===== LT向け: 核心スライド =====
+   1スライド1メッセージ。聞き手に持ち帰ってほしい「1つ」を中央に大きく置く。 */
+section.core {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 100px 120px;
+}
+
+section.core h1,
+section.core h2 {
+  font-family: var(--luming-serif);
+  font-size: 60px;
+  font-weight: 500;
+  line-height: 1.5;
+  border: none;
+  padding: 0;
+  margin: 0;
+  max-width: 920px;
+  color: var(--luming-ink);
+}
+
+section.core h1::after,
+section.core h2::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 1px;
+  background-color: var(--luming-accent);
+  margin: 32px auto 0;
+}
+
+section.core p {
+  margin-top: 28px;
+  color: var(--luming-ink-soft);
+  font-size: 22px;
+  letter-spacing: 0.18em;
+}
+
+section.core::after {
+  display: none !important;
+}
+
+/* ===== LT向け: フックスライド =====
+   冒頭30秒で聞き手の予想を裏切る一文を提示するためのレイアウト。
+   左寄せ・大きめのセリフ・キーワードはマーカー強調。 */
+section.hook {
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  padding: 96px 120px;
+}
+
+section.hook h1,
+section.hook h2 {
+  font-family: var(--luming-serif);
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.55;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--luming-ink);
+  max-width: 980px;
+}
+
+section.hook p {
+  font-size: 32px;
+  color: var(--luming-ink-mute);
+  letter-spacing: 0.15em;
+  margin-top: 24px;
+}
+
+section.hook::after {
+  display: none !important;
+}
+
+/* ===== セクション分割スライド ===== */
+section.section-divider {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: var(--luming-bg-soft);
+  box-shadow:
+    inset 0 0 0 14px var(--luming-bg-soft),
+    inset 0 0 0 15px var(--luming-accent-soft),
+    inset 0 0 0 21px var(--luming-bg-soft),
+    inset 0 0 0 23px var(--luming-accent-soft);
+}
+
+section.section-divider h1 {
+  font-family: var(--luming-serif);
+  font-size: 68px;
+  font-weight: 500;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--luming-ink);
+}
+
+section.section-divider p {
+  margin-top: 20px;
+  color: var(--luming-ink-soft);
+  font-size: 22px;
+  letter-spacing: 0.3em;
+}
+
+section.section-divider::after {
+  display: none !important;
+}
+
+/* ===== Luming特徴: ピル型タグ ===== */
+.tag {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background-color: var(--luming-bg-deep);
+  color: var(--luming-ink);
+  font-size: 20px;
+  font-weight: 500;
+  margin: 3px 4px;
+  letter-spacing: 0.05em;
+}
+
+.tag-soft {
+  background-color: var(--luming-bg-soft);
+  color: var(--luming-ink-soft);
+}
+
+.tag-accent {
+  background-color: var(--luming-accent);
+  color: var(--luming-bg);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+/* ===== カード ===== */
+.card {
+  background-color: var(--luming-bg);
+  border: 1px solid var(--luming-line);
+  border-radius: 14px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 2px 8px var(--luming-shadow);
+  font-size: 22px;
+  line-height: 1.6;
+}
+
+.card-soft {
+  background-color: var(--luming-bg-soft);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+/* ===== カラムレイアウト ===== */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.columns-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.columns-40-60 {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 36px;
+  align-items: start;
+}
+
+/* ===== やわらかいハイライトボックス ===== */
+.soft-box {
+  background-color: var(--luming-bg-soft);
+  border-radius: 12px;
+  padding: 18px 26px;
+  margin: 12px 0;
+  color: var(--luming-ink);
+}
+
+.soft-box-accent {
+  background-color: var(--luming-bg-deep);
+  border-left: 3px solid var(--luming-accent);
+}
+
+/* ===== あえて省く印 =====
+   CLAUDE.mdの原則「あえて省く部分を作る」を視覚化する装飾。
+   本文に挿入して聞き手に余白を意識させ、懇親会での質問の入口にする。 */
+.pause {
+  text-align: center;
+  font-family: var(--luming-serif);
+  font-size: 44px;
+  color: var(--luming-accent);
+  letter-spacing: 0.5em;
+  margin: 24px 0;
+  font-style: italic;
+}
+
+/* ===== PDF出力用 ===== */
+@media print {
+  section::before {
+    border-color: var(--luming-line);
+  }
+}
