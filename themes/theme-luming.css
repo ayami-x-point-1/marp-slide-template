@@ -533,6 +533,16 @@ section.section-divider::after {
   font-style: italic;
 }
 
+/* ===== アニメーション ===== */
+@keyframes luming-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-in {
+  animation: luming-fade-in 0.4s ease-out both;
+}
+
 /* ===== PDF出力用 ===== */
 @media print {
   section::before {
