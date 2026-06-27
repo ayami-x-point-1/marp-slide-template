@@ -25,3 +25,6 @@ archive/
 # Claude Code ローカル設定
 .claude/*.local.*
 .claude/settings.local.json
+
+# direnv（gh アカウント切替用・マシンローカル）
+.envrc
