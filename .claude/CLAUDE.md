@@ -16,11 +16,11 @@ marp-templates/
 │   ├── sample-wisdom.md
 │   └── sample-with_you.md
 ├── slides/                    # 作業ディレクトリ（git除外）
-├── archive/                   # アーカイブ（git除外）
+├── archive/                   # 旧アーカイブ（現在は外部の ../lt-archives を使用）
 ├── dist/                      # ビルド出力（dist/{名前}/ 構成、git除外）
 ├── scripts/                   # ユーティリティスクリプト
 │   ├── build-slides.js        # ビルド（dist/{名前}/に出力）
-│   ├── archive-slides.js      # アーカイブ移動
+│   ├── archive-slides.js      # lt-archives へアーカイブ
 │   └── sync-themes.js         # テーマ同期
 ├── .marprc.yml                # Marp CLI共通設定
 ├── package.json
@@ -83,8 +83,9 @@ npm run build:samples
 # theme-common.cssの変更を全テーマに反映
 npm run sync-themes
 
-# slides/内の完成スライドをarchive/に移動
-npm run archive
+# 完成スライドを lt-archives へアーカイブ（イベント日を必ず指定）
+# 通常は archiving-slides スキル経由で実行する
+npm run archive -- YYYY-MM-DD
 ```
 
 ## ワークフロー
@@ -93,6 +94,18 @@ npm run archive
 2. `npm run preview` でブラウザプレビュー
 3. 編集 → 自動リロードで確認
 4. `npm run build` または `npm run build:pdf` で最終出力
+
+## アーカイブ運用
+
+完成したスライドは **`archiving-slides` スキル**でアーカイブする（`.claude/skills/archiving-slides/`）。
+
+- **保存先**: `lt-archives` リポジトリ（非公開・ワークスペース直下にclone）の `{イベント日}_{名前}/` に md / html / pdf / 参照アセット / 動画を同梱する
+- **デモ動画**: `slide-assets` リポジトリ（公開・GitHub Pages配信）の `{イベント日}_{名前}/` にもコピーする
+- **実行**: `npm run archive -- <YYYY-MM-DD>`（イベント日を必ず指定。未指定はエラーで停止）。スキル経由なら日付を対話で確定してから実行する
+- **破壊的操作は slides/ の `.md` 移動のみ**。`dist/` と slides/ のアセットは保持（コピー）する
+- **lt-archives / slide-assets はともに PR運用**（main へ直接 push しない）
+
+詳細手順は `archiving-slides` スキルを参照。
 
 ## Marp固有の注意点
 
@@ -121,6 +134,26 @@ npm run archive
 ```
 
 利用可能: `progress-fill-{数値}`（25, 40, 50, 56, 60, 70, 75, 80, 90, 99, 100）
+
+### デモ動画の扱い（HTML/PDF 出し分け）
+
+スライドにデモ動画を載せる場合、**1つのソースmdから HTML版（動画再生）と PDF版（静止画＋リンク）を出し分ける**。PDF は動画を再生できない（PDF出力は Chromium の印刷経由）ため。
+
+- 画面/HTML用: `<video src="./xxx.mp4">` を `.screen-only` で囲む（ローカルmp4をインライン再生）
+- 印刷/PDF用: 「静止画 + リンク」を `.print-only` で囲む（静止画に動画URLをリンクとして埋め込む）
+- 切替CSS（スライド内の `<style>` か theme に置く）:
+
+```css
+.screen-only { display: block; }
+.print-only { display: none; }
+@media print {
+  .screen-only { display: none; }
+  .print-only { display: block; }
+}
+```
+
+- 動画は公開リポジトリ **slide-assets** にホストし GitHub Pages で配信。そのURLを PDF のリンク先にする
+- 再生ボタン等のアイコンは絵文字に頼らず CSS で描く（絵文字はビューア依存で表示が崩れる）
 
 ## レイアウトパターン
 
