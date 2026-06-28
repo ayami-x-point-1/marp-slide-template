@@ -16,11 +16,9 @@ marp-templates/
 │   ├── sample-wisdom.md
 │   └── sample-with_you.md
 ├── slides/                    # 作業ディレクトリ（git除外）
-├── archive/                   # 旧アーカイブ（現在は外部の ../lt-archives を使用）
 ├── dist/                      # ビルド出力（dist/{名前}/ 構成、git除外）
 ├── scripts/                   # ユーティリティスクリプト
 │   ├── build-slides.js        # ビルド（dist/{名前}/に出力）
-│   ├── archive-slides.js      # lt-archives へアーカイブ
 │   └── sync-themes.js         # テーマ同期
 ├── .marprc.yml                # Marp CLI共通設定
 ├── package.json
@@ -82,10 +80,6 @@ npm run build:samples
 
 # theme-common.cssの変更を全テーマに反映
 npm run sync-themes
-
-# 完成スライドを lt-archives へアーカイブ（イベント日を必ず指定）
-# 通常は archiving-slides スキル経由で実行する
-npm run archive -- YYYY-MM-DD
 ```
 
 ## ワークフロー
@@ -94,18 +88,6 @@ npm run archive -- YYYY-MM-DD
 2. `npm run preview` でブラウザプレビュー
 3. 編集 → 自動リロードで確認
 4. `npm run build` または `npm run build:pdf` で最終出力
-
-## アーカイブ運用
-
-完成したスライドは **`archiving-slides` スキル**でアーカイブする（`.claude/skills/archiving-slides/`）。
-
-- **保存先**: `lt-archives` リポジトリ（非公開・ワークスペース直下にclone）の `{イベント日}_{名前}/` に md / html / pdf / 参照アセット / 動画を同梱する
-- **デモ動画**: `slide-assets` リポジトリ（公開・GitHub Pages配信）の `{イベント日}_{名前}/` にもコピーする
-- **実行**: `npm run archive -- <YYYY-MM-DD>`（イベント日を必ず指定。未指定はエラーで停止）。スキル経由なら日付を対話で確定してから実行する
-- **破壊的操作は slides/ の `.md` 移動のみ**。`dist/` と slides/ のアセットは保持（コピー）する
-- **lt-archives / slide-assets はともに PR運用**（main へ直接 push しない）
-
-詳細手順は `archiving-slides` スキルを参照。
 
 ## Marp固有の注意点
 
@@ -152,7 +134,7 @@ npm run archive -- YYYY-MM-DD
 }
 ```
 
-- 動画は公開リポジトリ **slide-assets** にホストし GitHub Pages で配信。そのURLを PDF のリンク先にする
+- 動画は公開ホスティング（GitHub Pages 等）に置いて配信し、そのURLを PDF のリンク先にする
 - 再生ボタン等のアイコンは絵文字に頼らず CSS で描く（絵文字はビューア依存で表示が崩れる）
 
 ## レイアウトパターン
