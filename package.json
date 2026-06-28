@@ -9,7 +9,6 @@
     "preview": "marp -s slides/",
     "preview:samples": "marp -s samples/",
     "watch": "node scripts/build-slides.js --watch",
-    "sync-themes": "node scripts/sync-themes.js",
-    "archive": "node scripts/archive-slides.js"
+    "sync-themes": "node scripts/sync-themes.js"
   }
 }
