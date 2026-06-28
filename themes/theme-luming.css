@@ -556,4 +556,9 @@ section.section-divider::after {
   section::before {
     border-color: var(--luming-line);
   }
+  /* アニメが走らず fade-in 要素が消えるため、表示状態に固定する */
+  .fade-in {
+    animation: none;
+    opacity: 1;
+  }
 }
