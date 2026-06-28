@@ -31,6 +31,33 @@ const getSlideFiles = () =>
     .sort((a, b) => b.mtime - a.mtime)
     .map(f => f.name);
 
+// Markdownが参照するローカル画像を出力フォルダにコピーする
+// HTML出力は相対パス(./xxx.png)をそのまま残すため、出力先に画像が無いと
+// ブラウザで開いたときリンク切れになる。dist/{名前}/を自己完結させる。
+const copyAssets = (file, outDir) => {
+  const raw = fs.readFileSync(path.join(SLIDES_DIR, file), 'utf8');
+  const refs = new Set();
+  const patterns = [
+    /src\s*=\s*["']([^"']+)["']/g, // <img src="...">
+    /!\[[^\]]*\]\(([^)\s]+)/g, // ![alt](path)
+    /url\(\s*["']?([^"')]+)["']?\s*\)/g, // CSS url(...)
+  ];
+  for (const re of patterns) {
+    let m;
+    while ((m = re.exec(raw)) !== null) refs.add(m[1]);
+  }
+  for (const ref of refs) {
+    // リモートURL・データURIはコピー不要
+    if (/^(https?:)?\/\//.test(ref) || ref.startsWith('data:')) continue;
+    const srcImg = path.resolve(SLIDES_DIR, ref);
+    // slides/配下の実在ファイルのみ対象
+    if (!srcImg.startsWith(SLIDES_DIR) || !fs.existsSync(srcImg)) continue;
+    const destImg = path.join(outDir, path.relative(SLIDES_DIR, srcImg));
+    fs.mkdirSync(path.dirname(destImg), { recursive: true });
+    fs.copyFileSync(srcImg, destImg);
+  }
+};
+
 // 1ファイルをビルド
 const buildFile = (file, { pdf = false } = {}) => {
   const baseName = path.basename(file, '.md');
@@ -39,8 +66,11 @@ const buildFile = (file, { pdf = false } = {}) => {
   const outPath = path.join(outDir, baseName + ext);
 
   fs.mkdirSync(outDir, { recursive: true });
+  copyAssets(file, outDir);
 
-  const pdfFlag = pdf ? ' --pdf' : '';
+  // PDF/PNG出力はヘッドレスブラウザでレンダリングするため、
+  // ローカル画像(./xxx.png)の読み込みに --allow-local-files が必須
+  const pdfFlag = pdf ? ' --pdf --allow-local-files' : '';
   execSync(`marp "${path.join(SLIDES_DIR, file)}"${pdfFlag} -o "${outPath}"`, {
     stdio: 'inherit',
   });
@@ -55,6 +85,7 @@ const watchFile = (file) => {
   const outPath = path.join(outDir, baseName + '.html');
 
   fs.mkdirSync(outDir, { recursive: true });
+  copyAssets(file, outDir);
 
   const child = spawn(
     'marp',

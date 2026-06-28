@@ -506,6 +506,14 @@ section.section-divider::after {
   align-items: start;
 }
 
+/* 鏡像: テキスト左（広）・画像右（狭）。デッキ全体の「キャラは右」リズムを保つ。 */
+.columns-60-40 {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 36px;
+  align-items: start;
+}
+
 /* ===== やわらかいハイライトボックス ===== */
 .soft-box {
   background-color: var(--luming-bg-soft);
